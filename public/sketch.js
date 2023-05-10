@@ -388,20 +388,21 @@ function setup() {
 // Image analysis algorithms.
 
 function modelReady() {
-  console.log("loaded");
+  console.log("PoseNet model loaded.");
 
   poseNet.on("pose", function (poses) {
     if (poses.length > 0) {
       console.log(fileNames[i]);
+
+      // Get the subjects weight from the file name.
       let weight = parseInt(fileNames[i].slice(4, 7));
-      console.log(typeof weight);
 
       console.log(poses[0].pose.keypoints);
 
+      // Call BodyPix on the image.
       bodyPix = ml5.bodyPix(bodyPixModelReady);
 
-      console.log(bodyPix.config);
-
+      // Defining BodyPix's callback functions.
       function bodyPixModelReady() {
         bodyPix.segment(canvas, gotResults);
       }
@@ -413,23 +414,29 @@ function modelReady() {
         segmentation = result;
         console.log(segmentation);
 
+        // Draw the segmentation mask.
         background(0);
         image(segmentation.backgroundMask, 0, 0);
 
+        // Calculate the anthropometric features on the image.
         anthropometricFeatures(poses, segmentation, weight);
       }
 
+      // Wait for two seconds to draw the PoseNet pose. Therefore, BodyPix and PoseNet are in sync.
       setTimeout(function () {
         drawKeypoints(poses);
         drawSkeleton(poses);
       }, 2000);
 
+      // Wait for 4 seconds to load a new image.
       setTimeout(nextImage, 4000);
 
+      // Load a new image and repeat cycle.
+      // Or, if finished, create the network.
       function nextImage() {
         i++;
         if (i < fileNames.length) {
-          console.log("smaller");
+          console.log("More images to go.");
           image(eval(`img${i}`), 0, 0);
           poseNet = ml5.poseNet(eval(`img${i}`), modelReady);
         } else {
@@ -441,8 +448,10 @@ function modelReady() {
   });
   console.log(poseNet.singlePose(eval(`img${i}`)));
 }
+
+// Function to calculate the anthropometric features.
 function anthropometricFeatures(poses, segmentation, weight) {
-  // WTR ----------------------------------------------------
+  // WTR ------------------------------------------------------
   let yHip;
   let yLeftHip = poses[0].pose.keypoints[11].position.y;
   let yRightHip = poses[0].pose.keypoints[12].position.y;
