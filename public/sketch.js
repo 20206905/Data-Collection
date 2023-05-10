@@ -6,8 +6,9 @@ for (let i = 1; i < 384; i++) {
   eval(`let img${i};`);
 }
 
-let poseNet;
 let i = 0;
+let poseNet;
+let bodyPix;
 let data = [];
 
 // Create an array of the file names.
@@ -364,6 +365,8 @@ let fileNames = [
 ];
 
 //--------------------------------------------------------------------
+// P5.js functions.
+
 // Preload all the images.
 function preload() {
   for (let i = 0; i < fileNames.length; i++) {
@@ -371,18 +374,19 @@ function preload() {
   }
 }
 
+// Create a canvas consisting of the maximum width and height of an image in the dataset.
+// Load the first image onto the canvas.
+// Call PoseNet on the first image.
 function setup() {
   createCanvas(542, 626);
   image(eval(`img${i}`), 0, 0);
 
-  // for (let i = 0; i < fileNames.length; i++) {
-  //   image(eval(`img${i}`), 0, 0, 400, 600);
-  // }
-
   poseNet = ml5.poseNet(eval(`img${i}`), modelReady);
 }
 
-let bodyPix;
+//------------------------------------------------------------------------------------------------
+// Image analysis algorithms.
+
 function modelReady() {
   console.log("loaded");
 
