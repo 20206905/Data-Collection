@@ -1,9 +1,16 @@
+//----------------------------------------------------------------------
+// Initialisation.
+
 // Create variable names to hold images.
 for (let i = 1; i < 384; i++) {
   eval(`let img${i};`);
 }
 
-// Create an array with the file names.
+let poseNet;
+let i = 0;
+let data = [];
+
+// Create an array of the file names.
 let fileNames = [
   "410-090_Del_L1.jpg",
   "410-100_Cece_L1.jpg",
@@ -356,15 +363,13 @@ let fileNames = [
   "611-490_Xavier_L1.jpg",
 ];
 
+//--------------------------------------------------------------------
+// Preload all the images.
 function preload() {
   for (let i = 0; i < fileNames.length; i++) {
     eval(`img${i} = loadImage("archive/" + fileNames[i])`);
   }
 }
-
-let poseNet;
-let i = 0;
-let data = [];
 
 function setup() {
   createCanvas(542, 626);
