@@ -451,7 +451,7 @@ function modelReady() {
 
 // Function to calculate the anthropometric features.
 function anthropometricFeatures(poses, segmentation, weight) {
-  // WTR ------------------------------------------------------
+  // WTR ----------------------------------------------------------
   let yHip;
   let yLeftHip = poses[0].pose.keypoints[11].position.y;
   let yRightHip = poses[0].pose.keypoints[12].position.y;
