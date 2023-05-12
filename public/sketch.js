@@ -608,7 +608,7 @@ function anthropometricFeatures(poses, segmentation, weight) {
   let WHpR = dPRWB_PLWB / dRHB_LHB;
   console.log("WHpR = " + WHpR);
 
-  // WHdR ----------------------------------------------------
+  // WHdR ----------------------------------------------------------------
 
   let xRightEar = poses[0].pose.keypoints[4].position.x;
   let xLeftEar = poses[0].pose.keypoints[3].position.x;
@@ -671,18 +671,13 @@ function anthropometricFeatures(poses, segmentation, weight) {
     weight: weight,
   };
   console.log(row);
+  // Push the row onto the data array.
   data.push(row);
 }
 
-// PoseNet ellipse drawing.
-// fill(255);
-// stroke(20);
-// strokeWeight(4);
-// ellipse(round(keypoint.position.x), round(keypoint.position.y), 8, 8);
-
 // ---------------------------------------------------------------------------------
-
 // PoseNet pose drawing.
+
 function drawKeypoints(poses) {
   // Loop through all the poses detected
   for (let i = 0; i < poses.length; i++) {
